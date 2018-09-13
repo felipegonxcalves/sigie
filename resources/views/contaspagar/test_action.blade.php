@@ -1,0 +1,1 @@
+<a class="btn-danger" href="{{route($action['route'], [$row->getKey()])}}">{{$action['label']}} - {{$row->name}}</a>
