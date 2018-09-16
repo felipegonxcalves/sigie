@@ -50,6 +50,10 @@ class Membro extends Model
         return $this->belongsTo(Grupo::class, 'id_grupo');
     }
 
+    public function dizimo(){
+        return $this->hasMany(Dizimo::class, 'id_membro');
+    }
+
 /*
     //ESCOPO MULT-TENANCY
     public function scopeByAccount(Builder $query, $accountId){

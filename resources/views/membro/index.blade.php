@@ -54,9 +54,10 @@
                         <td>{{$membro->tipoMembro->destipo}}</td>
                         <td>{{$membro->igrejaCongregacao->tp_igreja == 's' ? 'Sede' : 'Congregação'}}</td>
                         <td>{{$membro->situacao}}</td>
-                        <td><a class="btn btn-success btn-xs" href="/membro/{{$membro->id}}"><span class="glyphicon glyphicon-eye-open"></span> Visualizar</a>&nbsp;
-                            <a class="btn btn-primary btn-xs" href="membro/{{$membro->id}}/edit"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                        <td><a class="btn btn-success btn-xs" href="/membro/{{$membro->id}}"><span class="glyphicon glyphicon-eye-open"></span> </a>&nbsp;
+                            <a class="btn btn-primary btn-xs" href="membro/{{$membro->id}}/edit"><span class="glyphicon glyphicon-pencil"></span> </a>
                          &nbsp;&nbsp; <a class="btn btn-danger btn-xs" href="/membro/delete/{{$membro->id}}"><span class="glyphicon glyphicon-trash"></span> Excluir</a>
+                            <a class="btn btn-bitbucket btn-xs" href="{{route('dizimo.historico', $membro->id)}}">Histórico Dízimo</a>
                         </td>
                          &nbsp;&nbsp;
                     </tr>
@@ -76,6 +77,8 @@
 @stop
 
 @section ('js')console
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
 <script type="text/javascript">
 

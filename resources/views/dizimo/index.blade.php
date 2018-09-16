@@ -47,7 +47,9 @@
                            data-nomeigreja="{{$dizimo->igrejaCongregacao->nome_igreja}}"
                            data-dt_dizimo="{{$dizimo->dt_dizimo}}"
                            data-val_dizimo="{{$dizimo->val_dizimo}}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
-                        <a class="btn btn-danger btn-xs" href="/dizimo/deletee/{{$dizimo->id}}"><span class="glyphicon glyphicon-trash"></span> Apagar</a></td>
+                        <a class="btn btn-danger btn-xs" href="/dizimo/deletee/{{$dizimo->id}}"><span class="glyphicon glyphicon-trash"></span> Apagar</a>
+                    </td>
+
                 </tr>
             @endforeach
         @else

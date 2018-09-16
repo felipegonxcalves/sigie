@@ -74,7 +74,7 @@
                         </div>
                         <div class="form-group col-md-7">
                             <label for="membro_congregacao">Selecione onde o Membro vai congregar</label>
-                            <select required="required" name="membro_congregacao" class="form-control">
+                            <select required="required" name="membro_congregacao" id="membro_congregacao" class="form-control">
                                 @foreach($igrejaCongregacoes as $igrejaCongregacao)
                                     <option {{ $igrejaCongregacao->id == $membros->id_igrejacongregacoes ? 'selected' : '' }}  value="{{$igrejaCongregacao->id}}">{{$igrejaCongregacao->nome_igreja}}</option>
                                 @endforeach
@@ -95,7 +95,7 @@
                     <div class="row">
                         <div class="form-group col-md-7">
                             <label for="id_membro_oficio" style="color: #9f191f">Selecione o Ofício do Membro</label>
-                            <select required="required" name="id_membro_oficio" class="form-control">
+                            <select name="id_membro_oficio" id="id_membro_oficio" class="form-control">
                                 @if($membros->id_membro_oficio == null)
                                     <option value="">NENHUM</option>
                                     @foreach($membroOficio as $oficio)
@@ -198,6 +198,7 @@
     </div>
     <!--</div>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script>
         //       function igrejaAnterior() {
         //            var flag_membroo = document.getElementById("flag_membro");
@@ -216,6 +217,16 @@
                     $("#nome_pastor_it").val("");
                     $('#igrejaAnterior').hide();
                 }
+            });
+
+            $(document).ready(function(){
+                $('#id_grupo').select2();
+            });
+            $(document).ready(function(){
+                $('#id_membro_oficio').select2();
+            });
+            $(document).ready(function(){
+                $('#membro_congregacao').select2();
             });
         });
     </script>

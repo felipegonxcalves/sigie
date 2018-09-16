@@ -275,6 +275,13 @@ class MembroController extends Controller
 
     }
 
+    public function historicoIndividualDizimo($id)
+    {
+        $membros = Membro::findOrFail($id);
+        $dizimoDoMembro = $membros->dizimo()->paginate(10);
+        return view('membro.historicoDizimoIndividual', compact('dizimoDoMembro'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *

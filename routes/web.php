@@ -43,6 +43,7 @@ Route::post('/gerar-relatorio-oficiais/', 'MembroController@gerarRelatorioMembro
 Route::post('/gerar-relatorio-membros/', 'MembroController@gerarRelatorioLocalidade')->name('membro.relatorio');
 Route::any('/membro-search/', 'MembroController@search')->name('membro.search');
 Route::post('/verifica-matricula/', 'MembroController@verificaMatricula')->name('membro.matricula');
+Route::get('/historico-individual-dizimo/{id}', 'MembroController@historicoIndividualDizimo')->name('dizimo.historico');
 
 ROute::resource('dizimo', 'DizimosController');
 Route::get('/dizimo/delete/{id}', 'DizimosController@delete');
