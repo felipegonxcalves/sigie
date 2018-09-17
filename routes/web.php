@@ -44,6 +44,12 @@ Route::post('/gerar-relatorio-membros/', 'MembroController@gerarRelatorioLocalid
 Route::any('/membro-search/', 'MembroController@search')->name('membro.search');
 Route::post('/verifica-matricula/', 'MembroController@verificaMatricula')->name('membro.matricula');
 Route::get('/historico-individual-dizimo/{id}', 'MembroController@historicoIndividualDizimo')->name('dizimo.historico');
+Route::get('/listar-membros-ministerio/', 'MembroController@listarMembrosMinisterio')->name('membro.ministerio');
+Route::get('/ficha-ministerio/{id}', 'MembroController@fichaMinisterial')->name('ficha.ministerio');
+Route::post('/insert-ficha-ministerio/{id}', 'MembroController@insertFichaMinisterial')->name('cadastrar.ministerio');
+Route::get('/ficha-ministerio/delete/{id}', 'MembroController@deleteFichaMinisterial')->name('deletar.ministerio');
+Route::get('/imprimir-ficha/{id}', 'MembroController@imprimirFicha')->name('imprimir.ficha');
+Route::any('/ministerio-search/', 'MembroController@searchMinisterio')->name('ministerio.search');
 
 ROute::resource('dizimo', 'DizimosController');
 Route::get('/dizimo/delete/{id}', 'DizimosController@delete');

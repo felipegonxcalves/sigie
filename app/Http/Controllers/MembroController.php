@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Endereco_membro;
+use App\Ficha_ministerial;
 use App\Grupo;
 use App\Igreja_congregacao;
 use App\Membro;
 use App\Membro_congregacoes;
 use App\Membros_oficiais;
 use App\Tipo_membro;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +43,60 @@ class MembroController extends Controller
         $request = $request->except('_token');
         $membros = $membro->search($request);
         return view('membro.index', compact('membros', 'request', 'igrejaCongregacoes'));
+    }
+
+    public function listarMembrosMinisterio()
+    {
+        //$igrejaCongregacao = Igreja_congregacao::all();
+        $tipoMembroMinisterio = Tipo_membro::query()->where('destipo', '=', 'Ministério')->first();
+        $membrosMinisterio = Membro::query()->where('tp_membros', '=', $tipoMembroMinisterio->id)->orderBy('nome')->paginate(10);
+
+        return view('membro.listarMembrosMinisterio', compact( 'membrosMinisterio'));
+    }
+
+    public function searchMinisterio(Request $request)
+    {
+        $tipoMembroMinisterio = Tipo_membro::query()->where('destipo', '=', 'Ministério')->first();
+        $request = $request->except('_token');
+        $membrosMinisterio = Membro::query()->where('tp_membros', '=', $tipoMembroMinisterio->id)
+                                            ->where('nome','LIKE', '%'.$request['nome'].'%')
+                                            ->orderBy('nome')
+                                            ->paginate(10);
+        return view('membro.listarMembrosMinisterio', compact( 'membrosMinisterio', 'request'));
+    }
+
+    public function fichaMinisterial($id)
+    {
+        $membroMinisterial = Membro::query()->where('id', $id)->first();
+        $fichaMembro = Ficha_ministerial::query()->where('id_membro_ministerio', $id)->get();
+        return view('membro.fichaMinisterial', compact('membroMinisterial', 'fichaMembro'));
+    }
+
+    public function insertFichaMinisterial(Request $request, $id)
+    {
+        $fichaMinisterial = new Ficha_ministerial();
+        $fichaMinisterial->experiencias_campo = $request->get('experiencias_campo');
+        $fichaMinisterial->observacao = $request->get('observacao');
+        $fichaMinisterial->id_membro_ministerio = $id;
+        $fichaMinisterial->save();
+
+        return redirect(route('ficha.ministerio', $id));
+    }
+
+    public function imprimirFicha($id)
+    {
+        $membro = Membro::query()->where('id', $id)->first();
+        $fichaMembro = Ficha_ministerial::query()->where('id_membro_ministerio', $id)->get();
+        return \PDF::loadView('membro.relFichaMinisterial', compact('fichaMembro', 'membro'))
+            // Se quiser que fique no formato a4 retrato: ->setPaper('a4', 'landscape')
+            ->stream('Relatório.pdf');
+    }
+
+    public function deleteFichaMinisterial($id)
+    {
+        $ficha = Ficha_ministerial::findOrFail($id);
+        $ficha->delete();
+        return redirect(route('ficha.ministerio', $ficha->id_membro_ministerio));
     }
 
     /**
@@ -135,6 +191,7 @@ class MembroController extends Controller
      */
     public function edit($id)
     {
+        $accountId = \Auth::user()->account_id;
         $membroOficio = Membros_oficiais::orderBy('cargo_oficial')->get();
         $grupos = Grupo::all();
         $tipoMembros = Tipo_membro::all();
@@ -144,6 +201,7 @@ class MembroController extends Controller
             ->join('igreja_congregacoes',  'membros.id_congregacao', '=', 'igreja_congregacoes.id')
             ->join('endereco_membros',  'membros.id', '=', 'endereco_membros.id_membro')
             ->where('membros.id', '=', $id)
+            ->where('membros.account_id', $accountId)
             ->select('membros.*', 'membros.id as id_membro', 'igreja_congregacoes.*', 'igreja_congregacoes.id as id_igrejacongregacoes', 'tipo_membros.destipo', 'tipo_membros.id as id_tipomembros',
                 'endereco_membros.id as id_endereco', 'endereco_membros.cep as cep_membro', 'endereco_membros.logradouro as log_membro',
                 'endereco_membros.nro as nro_membro', 'endereco_membros.bairro as bairro_membro', 'endereco_membros.complemento as complemento_membro',
@@ -217,6 +275,7 @@ class MembroController extends Controller
 
     public function gerarRelatorioMembrosOficiais(Request $request)
     {
+        $accountId = \Auth::user()->account_id;
         if ($request->get('id_congregacao') == 'todas'){
             $sql = "SELECT m.nome,
                            mo.cargo_oficial,
@@ -224,6 +283,7 @@ class MembroController extends Controller
                     FROM membros m, igreja_congregacoes ic, membros_oficiais mo
                     WHERE m.id_membro_oficio = mo.id
                     AND m.id_congregacao = ic.id
+                    AND m.account_id = $accountId
                     order by mo.cargo_oficial";
             $membrosOficiais = \DB::select($sql);
 
@@ -242,6 +302,7 @@ class MembroController extends Controller
                     WHERE m.id_membro_oficio = mo.id
                     AND m.id_congregacao = ic.id
                     AND m.id_congregacao = $idCongregacao
+                    AND m.account_id = $accountId
                     order by mo.cargo_oficial";
             $membrosOficiais = \DB::select($sql);
 

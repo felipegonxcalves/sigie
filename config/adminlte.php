@@ -222,7 +222,7 @@ return [
                     'url'  => 'relatorio-membros',
                 ],
                 [
-                    'text' => 'Relatório Membros com Ofícios',
+                    'text' => 'Relatório Ministerio/Ofícios',
                     'icon' => 'user',
                     'url'  => 'relatorio-oficiais',
                 ],
@@ -242,6 +242,18 @@ return [
                     'text' => 'Listagem de Bens Congregação',
                     'icon' => 'user',
                     'url'  => 'listar-bens-igreja',
+                ],
+            ]
+        ],
+        [
+            'text' => 'MINISTÉRIO',
+            'icon_color' => 'green',
+            'icon' => 'user',
+            'submenu' => [
+                [
+                    'text' => 'Listar Ministério',
+                    'icon' => 'user',
+                    'url' => 'listar-membros-ministerio',
                 ],
             ]
         ],
