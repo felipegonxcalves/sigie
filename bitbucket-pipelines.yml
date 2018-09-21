@@ -15,7 +15,7 @@ pipelines:
             - php composer-setup.php
             - php -r "unlink('composer-setup.php');"
             - php composer.phar install
-            - curls -O https://bootstrap.pypa.io/get-pip.py
+            - curl -O https://bootstrap.pypa.io/get-pip.py
             - python get-pip.py
             - pip install awscli
             - zip -r deploy.zip ./
