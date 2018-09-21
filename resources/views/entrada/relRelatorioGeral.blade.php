@@ -22,14 +22,16 @@
 </head>
 <body>
 
-<h3 align="center" style="color:#1e282c;"> RELATÓRIO GERAL</h3>
+<h3 align="center" style="color:#1e282c;"> <strong>RELATÓRIO GERAL ENTRADAS E SAÍDAS</strong></h3>
 <table align="center">
     <tr>
-        <td align="center" colspan="2"><strong>ENTRADAS</strong></td>
+        <td align="center" colspan="4"><strong>ENTRADAS</strong></td>
     </tr>
     <tr>
-        <td align="center"><strong>Congregação</strong></td>
-        <td align="center"><strong>Total Entradas</strong></td>
+        <td align="center"><strong>LOCALIDADE</strong></td>
+        <td align="center"><strong>TIPO ENTRADA</strong></td>
+        <td align="center"><strong>DATA ENTRADA</strong></td>
+        <td align="center"><strong>VALOR ENTRADA</strong></td>
     </tr>
     <?php $cont = 1;
     $totalEntrada = 0;
@@ -37,14 +39,16 @@
     @foreach($entradas as $entrada)
         <tr>
             <td align="center">{{$entrada->nome_igreja}}</td>
-            <td align="center" style="color: #c9302c">R$ {{$entrada->totalEntrada}}</td>
+            <td align="center">{{$entrada->tipo}}</td>
+            <td align="center">{{date('d/m/Y', strtotime($entrada->dt_entrada)) }}</td>
+            <td align="center" style="color: #c9302c">R$ {{$entrada->valorEntrada}}</td>
         </tr>
         <?php
-        $totalEntrada = $totalEntrada + $entrada->totalEntrada;
+        $totalEntrada = $totalEntrada + $entrada->valorEntrada;
         ?>
     @endforeach
     <tr>
-        <td align="center"><strong>TOTAL</strong></td>
+        <td align="center" colspan="3"><strong>TOTAL</strong></td>
         <td align="center" style="color: #9f191f">R$ {{$totalEntrada}}</td>
     </tr>
 </table>
@@ -52,11 +56,14 @@
 <br/>
 <table align="center">
     <tr>
-        <td align="center" colspan="2"><strong>SAÍDAS</strong></td>
+        <td align="center" colspan="5"><strong>SAÍDAS</strong></td>
     </tr>
     <tr>
-        <td align="center"><strong>Congregação</strong></td>
-        <td align="center"><strong>Total Sáidas</strong></td>
+        <td align="center"><strong>LOCALIDADE</strong></td>
+        <td align="center"><strong>TIPO SAÍDA</strong></td>
+        <td align="center"><strong>DESCRIÇÃO</strong></td>
+        <td align="center"><strong>DATA SAÍDA</strong></td>
+        <td align="center"><strong>VALOR SAÍDA</strong></td>
     </tr>
     <?php $cont = 1;
     $totalSaida = 0;
@@ -64,6 +71,9 @@
     @foreach($saidas as $saida)
         <tr>
             <td align="center">{{$saida->nome_igreja}}</td>
+            <td align="center">{{$saida->tipo}}</td>
+            <td align="center">{{$saida->descricao}}</td>
+            <td align="center">{{date('d/m/Y', strtotime($saida->dt_saida)) }}</td>
             <td align="center" style="color: #c9302c">R$ {{$saida->totalSaida}}</td>
         </tr>
         <?php
@@ -71,7 +81,7 @@
         ?>
     @endforeach
     <tr>
-        <td align="center"><strong>TOTAL</strong></td>
+        <td align="center" colspan="4"><strong>TOTAL</strong></td>
         <td align="center" style="color: #9f191f">R$ {{$totalSaida}}</td>
     </tr>
 </table>
@@ -86,7 +96,7 @@
     ?>
     <tr>
         <td align="center"><strong>SOMA</strong></td>
-        <td align="center" style="color: #c9302c"> R$ {{$totalEntrada}} - R$ {{$totalSaida}} = R$ {{$soma}}</td>
+        <td align="center" style="color: #c9302c"> <strong style="color: #141a1d">(Valor de Entrada)</strong> R$ {{$totalEntrada}} - R$ {{$totalSaida}} <strong style="color: #141a1d">(Valor de Saída)</strong> =  <strong style="color: #141a1d">(Resultado)</strong> R$ {{$soma}}</td>
     </tr>
 </table>
 

@@ -241,44 +241,58 @@ class EntradasController extends Controller
         $accountId = \Auth::user()->account_id;
         if ($request->get('dt_inicial') == null || $request->get('dt_final') == null){
             $sqlEntradas = "select ic.nome_igreja,
-                               SUM(e.val_entrada) as totalEntrada
-                        from entradas e, igreja_congregacoes ic
+                                   e.dt_entrada,
+                                   tp.tipo,		 
+                                   e.val_entrada as valorEntrada
+                        from entradas e, igreja_congregacoes ic, tipo_entradas tp
                         where e.id_congregacao = ic.id
+                        and e.tp_entrada = tp.id
                         and e.account_id = $accountId
-                        group by ic.nome_igreja";
+                        order by ic.nome_igreja, e.dt_entrada";
 
             $sqlSaidas = "select ic.nome_igreja,
-                             SUM(s.val_saida) as totalSaida
-                      from saidas s, igreja_congregacoes ic
+                                 s.descricao,
+                                 s.dt_saida,
+                                 ts.tipo,
+                                 s.val_saida as totalSaida
+                      from saidas s, igreja_congregacoes ic, tipo_saidas ts
                       where s.id_congregacao = ic.id
+                      and s.tp_saida = ts.id
                       and s.account_id = $accountId
-                      group by ic.nome_igreja";
+                      order by ic.nome_igreja, s.dt_saida";
         }else{
             $dataInicial = $request->get('dt_inicial');
             $dataFinal = $request->get('dt_final');
 
             $sqlEntradas = "select ic.nome_igreja,
-                               SUM(e.val_entrada) as totalEntrada
-                        from entradas e, igreja_congregacoes ic
+                               	   e.dt_entrada,
+                                   tp.tipo,
+                                   e.val_entrada as valorEntrada
+                        from entradas e, igreja_congregacoes ic, tipo_entradas tp
                         where e.id_congregacao = ic.id
+                        and e.tp_entrada = tp.id
                         and e.dt_entrada between '$dataInicial' and '$dataFinal'
                         and e.account_id = $accountId
-                        group by ic.nome_igreja";
+                        order by ic.nome_igreja, e.dt_entrada";
 
             $sqlSaidas = "select ic.nome_igreja,
-                             SUM(s.val_saida) as totalSaida
-                      from saidas s, igreja_congregacoes ic
+                                 s.descricao,
+                                 s.dt_saida,
+                                 ts.tipo,
+                                 s.val_saida as totalSaida
+                      from saidas s, igreja_congregacoes ic, tipo_saidas ts
                       where s.id_congregacao = ic.id
-                      and s.dt_saida between '$dataInicial' and '$dataFinal'
+                      and s.tp_saida = ts.id
+                      and s.dt_saida between '$dataInicial' and '$dataFinal'                      
                       and s.account_id = $accountId
-                      group by ic.nome_igreja";
+                      order by ic.nome_igreja, s.dt_saida";
         }
 
 
         $entradas = \DB::select($sqlEntradas);
         $saidas = \DB::select($sqlSaidas);
         return \PDF::loadView('entrada.relRelatorioGeral', compact('igrejaCongregacao', 'entradas', 'saidas'))
-            // Se quiser que fique no formato a4 retrato: ->setPaper('a4', 'landscape')
+            ->setPaper('a4', 'landscape')
             ->stream('Relatório.pdf');
     }
 
