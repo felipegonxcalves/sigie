@@ -72,7 +72,7 @@ Route::any('/entrada-search/', 'EntradasController@search')->name('entrada.searc
 Route::get('/relatorio-entrada/', 'EntradasController@relatorioEntrada');
 Route::any('/entrada/gerar-relatorio-entrada/', 'EntradasController@gerarRelatorioEntrada');
 Route::get('/relatorio-geral/', 'EntradasController@relatorioGeral');
-Route::post('/gerar-relatorio-geral/', 'EntradasController@gerarRelatorioGeral');
+Route::post('/gerar-relatorio-geral/', 'EntradasController@gerarRelatorioGeral')->name('entradas.relatoriogeral');
 
 ROute::resource('saida', 'SaidasController');
 Route::get('/saida/deletee/{id}', 'SaidasController@delete');

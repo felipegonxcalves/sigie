@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="box-body"></div>
-    <form id="gerar-relatorio" method="post" action="/gerar-relatorio-geral/" class="form form-group" target="_blank">
+    <form id="gerar-relatorio" method="post" action="{{route('entradas.relatoriogeral')}}" class="form form-group" target="_blank">
         {{csrf_field()}}
         <div class="row">
             <div class="form-group col-md-2">
