@@ -56,7 +56,7 @@ Route::get('/dizimo/delete/{id}', 'DizimosController@delete');
 Route::get('/dizimo/deletee/{id}', 'DizimosController@deleteindex');
 Route::any('/dizimo-search/', 'DizimosController@search')->name('dizimo.search');
 Route::get('/relatorio-por-periodo-dizimo/', 'DizimosController@relatorioDizimoPeriodo');
-Route::any('/dizimo/gerar-relatorio/', 'DizimosController@gerarRelatorio');
+Route::any('/dizimo/gerar-relatorio/', 'DizimosController@gerarRelatorio')->name('dizimos.gerarrelatoriodizimos');
 
 ROute::resource('oferta', 'OfertasController');
 Route::get('/oferta/delete/{id}', 'OfertasController@delete');
@@ -70,7 +70,7 @@ Route::get('/entrada/deletee/{id}', 'EntradasController@delete');
 Route::get('/entrada/delete/{id}', 'EntradasController@deleteIndex');
 Route::any('/entrada-search/', 'EntradasController@search')->name('entrada.search');
 Route::get('/relatorio-entrada/', 'EntradasController@relatorioEntrada');
-Route::any('/entrada/gerar-relatorio-entrada/', 'EntradasController@gerarRelatorioEntrada');
+Route::any('/entrada/gerar-relatorio-entrada/', 'EntradasController@gerarRelatorioEntrada')->name('relatorio.entradas');
 Route::get('/relatorio-geral/', 'EntradasController@relatorioGeral');
 Route::post('/gerar-relatorio-geral/', 'EntradasController@gerarRelatorioGeral')->name('entradas.relatoriogeral');
 
@@ -80,7 +80,7 @@ Route::get('/saida/delete/{id}', 'SaidasController@deleteIndex');
 Route::any('/saida-search/', 'SaidasController@search')->name('saida.search');
 Route::get('/saida/comprovante/{id}', 'SaidasController@comprovanteSaida');
 Route::get('/relatorio-saida/', 'SaidasController@relatorioSaida');
-Route::any('/saida/gerar-relatorio-saida/', 'SaidasController@gerarRelatorioSaida');
+Route::any('/saida/gerar-relatorio-saida/', 'SaidasController@gerarRelatorioSaida')->name('saidas.relatorio');
 
 ROute::resource('contas-pagar', 'ContasPagarController');
 Route::get('/contas-pagar/deletee/{id}', 'ContasPagarController@delete');

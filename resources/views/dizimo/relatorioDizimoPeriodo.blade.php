@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="box-body"></div>
-    <form method="post" action="/dizimo/gerar-relatorio/" class="form form-group" target="_blank">
+    <form method="post" action="{{route('dizimos.gerarrelatoriodizimos')}}" class="form form-group" target="_blank">
         {{csrf_field()}}
         <div class="row">
             <div class="form-group col-md-4">
